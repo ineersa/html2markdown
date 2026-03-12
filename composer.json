@@ -1,6 +1,6 @@
 {
-  "name": "ineersa/html2text",
-  "description": "`html2text` converts a page of HTML into clean, easy-to-read plain ASCII text. Better yet, that ASCII also happens to be valid Markdown (a text-to-HTML format).",
+  "name": "ineersa/html2markdown",
+  "description": "`html2markdown` converts a page of HTML into clean, easy-to-read plain ASCII text. Better yet, that ASCII also happens to be valid Markdown (a text-to-HTML format).",
   "type": "library",
   "require-dev": {
     "phpunit/phpunit": "^12.3.13",

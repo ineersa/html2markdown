@@ -162,7 +162,7 @@ class DataContainer
                     str_starts_with($data, Constants::UNIFIABLE['nbsp'])
                     && ($this->start || $this->lastWasNL)
                 ) {
-                    $data = substr($data, strlen(Constants::UNIFIABLE['nbsp']));
+                    $data = substr($data, \strlen(Constants::UNIFIABLE['nbsp']));
                 }
             }
 

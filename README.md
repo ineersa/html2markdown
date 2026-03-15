@@ -141,7 +141,7 @@ New parity-oriented options added for finer output control:
 
 ## Rust parity
 
-This project can be validated against the Rust implementation using imported HTML->Markdown fixture pairs.
+This project can be validated against the [Rust implementation](https://github.com/kreuzberg-dev/html-to-markdown) using imported HTML->Markdown fixture pairs.
 
 - `PHP Fixtures Suite` checks the PHP port's original fixture set.
 - `Rust Fixtures Suite` checks parity fixtures imported from the Rust repository.

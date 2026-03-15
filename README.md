@@ -1,7 +1,7 @@
 # PHP Html2Text
 
-[![CI](https://github.com/ineersa/php-html2text/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/ineersa/php-html2text/actions/workflows/main.yml)
-[![codecov](https://codecov.io/gh/ineersa/html2text/branch/main/graph/badge.svg)](https://codecov.io/gh/ineersa/html2text)
+[![CI](https://github.com/ineersa/html2markdown/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/ineersa/html2markdown/actions/workflows/main.yml)
+[![codecov](https://codecov.io/gh/ineersa/html2markdown/branch/main/graph/badge.svg)](https://codecov.io/gh/ineersa/html2markdown)
 
 
 `html2text` converts a page of HTML into clean, easy-to-read plain ASCII text. Better yet, that ASCII also happens to be valid Markdown (a text-to-HTML format).
@@ -110,6 +110,16 @@ final readonly class Config
         public bool $includeSupSub = false,
         /** baseUrl to join with URLs if needed */
         public string $baseUrl = '',
+        /** Number of list nesting levels skipped when applying visual indentation. */
+        public int $listIndentBaseLevel = 0,
+        /** Add indentation before definition list descriptions (<dd>). */
+        public bool $indentDefinitionDescriptions = true,
+        /** Add a blank line after closing a definition description (<dd>). */
+        public bool $blankLineAfterDefinitionDescription = false,
+        /** Append an extra newline after closing a top-level list. */
+        public bool $appendFinalListNewline = true,
+        /** Append one extra raw newline after a top-level list closes. */
+        public bool $appendRawNewlineAfterTopLevelList = false,
         /** Emphasis marks */
         public string $ulItemMark = '*',
         public string $emphasisMark = '_',
@@ -120,6 +130,89 @@ final readonly class Config
     }
 }
 ```
+
+New parity-oriented options added for finer output control:
+
+- `listIndentBaseLevel`: removes indentation from the first N list levels (useful when aligning with other converters that keep top-level lists flush-left).
+- `indentDefinitionDescriptions`: toggles the `    ` prefix for `<dd>` entries.
+- `blankLineAfterDefinitionDescription`: inserts a paragraph break after each `</dd>`.
+- `appendFinalListNewline`: appends a newline when closing the outermost list.
+- `appendRawNewlineAfterTopLevelList`: appends one more raw newline after a top-level list close.
+
+## Rust parity
+
+This project can be validated against the [Rust implementation](https://github.com/kreuzberg-dev/html-to-markdown) using imported HTML->Markdown fixture pairs.
+
+- `PHP Fixtures Suite` checks the PHP port's original fixture set.
+- `Rust Fixtures Suite` checks parity fixtures imported from the Rust repository.
+- You can run only parity tests with: `vendor/bin/phpunit --testsuite "Rust Fixtures Suite"`.
+
+<details>
+<summary>Rust parity configuration example</summary>
+
+```php
+<?php
+
+use Ineersa\Html2text\Config;
+use Ineersa\Html2text\HTML2Markdown;
+
+$config = new Config(
+    baseUrl: '',
+    bodyWidth: 0,
+    skipInternalLinks: false,
+    ulItemMark: '-',
+    emphasisMark: '*',
+    listIndentBaseLevel: 1,
+    indentDefinitionDescriptions: false,
+    blankLineAfterDefinitionDescription: true,
+    appendFinalListNewline: false,
+    appendRawNewlineAfterTopLevelList: true,
+);
+
+$converter = new HTML2Markdown($config);
+```
+
+</details>
+
+<details>
+<summary>Suggested LLM-oriented configuration</summary>
+
+For LLM ingestion, a practical default is to minimize reflow noise, keep inline context, and preserve structural cues:
+
+```php
+<?php
+
+use Ineersa\Html2text\Config;
+use Ineersa\Html2text\HTML2Markdown;
+
+$config = new Config(
+    bodyWidth: 0,
+    unicodeSnob: true,
+    inlineLinks: true,
+    skipInternalLinks: true,
+    wrapLinks: false,
+    wrapListItems: false,
+    wrapTables: false,
+    padTables: false,
+    useAutomaticLinks: true,
+    backquoteCodeStyle: true,
+    imagesToAlt: true,
+    ulItemMark: '-',
+    emphasisMark: '*',
+);
+
+$converter = new HTML2Markdown($config);
+```
+
+Why this profile works well for LLM workflows:
+
+- `bodyWidth: 0` avoids hard-wrapped lines that can split sentence context.
+- `inlineLinks: true` keeps reference targets close to anchor text.
+- `skipInternalLinks: true` reduces table-of-contents and in-page anchor noise.
+- `backquoteCodeStyle: true` keeps code blocks explicit and model-friendly.
+- `imagesToAlt: true` preserves useful image semantics without raw HTML clutter.
+
+</details>
 
 ## Development
 

@@ -45,6 +45,8 @@ class TagProcessor
 
     public int $tdCount = 0;
 
+    private int $strongDepth = 0;
+
     public function __construct(
         private Config $config,
         private DataContainer $data,
@@ -231,6 +233,23 @@ class TagProcessor
             }
         }
         if (\in_array($tag, ['strong', 'b'], true) && !$this->config->ignoreEmphasis) {
+            if (!$this->config->googleDoc) {
+                if ($start) {
+                    ++$this->strongDepth;
+                    if ($this->strongDepth > 1) {
+                        $this->data->precedingStressed = false;
+
+                        return;
+                    }
+                } elseif ($this->strongDepth > 1) {
+                    --$this->strongDepth;
+
+                    return;
+                } elseif ($this->strongDepth > 0) {
+                    --$this->strongDepth;
+                }
+            }
+
             // Separate with space if we immediately follow an * character, since
             // without it, Markdown won't render the resulting *** correctly.
             // (Don't add a space otherwise, though, since there isn't one in the
@@ -387,10 +406,16 @@ class TagProcessor
             $this->data->pbr();
         }
         if ('dd' === $tag && $start) {
-            $this->data->appendFormattedData('    ');
+            if ($this->config->indentDefinitionDescriptions) {
+                $this->data->appendFormattedData('    ');
+            }
         }
         if ('dd' === $tag && !$start) {
-            $this->data->pbr();
+            if ($this->config->blankLineAfterDefinitionDescription) {
+                $this->data->initializePrettyPrint();
+            } else {
+                $this->data->pbr();
+            }
         }
         if (\in_array($tag, ['ol', 'ul'], true)) {
             // Google Docs create sub lists as top level lists
@@ -408,8 +433,19 @@ class TagProcessor
             } else {
                 if ($this->listProcessor->list) {
                     array_pop($this->listProcessor->list);
-                    if (!$this->config->googleDoc && !$this->listProcessor->list) {
+                    if (
+                        !$this->config->googleDoc
+                        && !$this->listProcessor->list
+                        && $this->config->appendFinalListNewline
+                    ) {
                         $this->data->appendFormattedData("\n");
+                    }
+                    if (
+                        !$this->config->googleDoc
+                        && !$this->listProcessor->list
+                        && $this->config->appendRawNewlineAfterTopLevelList
+                    ) {
+                        $this->data->pushToList("\n");
                     }
                 }
             }
@@ -432,8 +468,15 @@ class TagProcessor
                 if ($this->config->googleDoc) {
                     $this->data->appendFormattedData(str_repeat('  ', ParserUtilities::googleNestCount($this->tagStyle, $this->config->googleListIndent)));
                 } else {
+                    $baseLevel = max(0, $this->config->listIndentBaseLevel);
                     $parentList = null;
-                    foreach ($this->listProcessor->list as $listElement) {
+                    if ($baseLevel > 0 && \array_key_exists($baseLevel - 1, $this->listProcessor->list)) {
+                        $parentList = $this->listProcessor->list[$baseLevel - 1]->name;
+                    }
+
+                    $listCount = \count($this->listProcessor->list);
+                    for ($level = $baseLevel; $level < $listCount; ++$level) {
+                        $listElement = $this->listProcessor->list[$level];
                         $this->data->listCodeIndent .= ('ol' === $parentList) ? '   ' : '  ';
                         $parentList = $listElement->name;
                     }

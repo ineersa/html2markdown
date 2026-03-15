@@ -77,6 +77,16 @@ final readonly class Config
         public bool $includeSupSub = false,
         /** baseUrl to join with URLs if needed */
         public string $baseUrl = '',
+        /** Number of list nesting levels skipped when applying visual indentation. */
+        public int $listIndentBaseLevel = 0,
+        /** Add indentation before definition list descriptions (<dd>). */
+        public bool $indentDefinitionDescriptions = true,
+        /** Add a blank line after closing a definition description (<dd>). */
+        public bool $blankLineAfterDefinitionDescription = false,
+        /** Append an extra newline after closing a top-level list. */
+        public bool $appendFinalListNewline = true,
+        /** Append one extra raw newline after a top-level list closes. */
+        public bool $appendRawNewlineAfterTopLevelList = false,
         /** Emphasis marks */
         public string $ulItemMark = '*',
         public string $emphasisMark = '_',

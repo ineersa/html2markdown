@@ -102,9 +102,15 @@ class DataContainer
 
         if (null !== $this->maybeAutomaticLink) {
             $href = $this->maybeAutomaticLink;
+            $mailtoTarget = null;
+            if (str_starts_with($href, 'mailto:')) {
+                $mailtoTarget = substr($href, 7);
+            }
             if (
-                $href === $data
-                && 1 === preg_match(Constants::RE_ABSOLUTE_URL_MATHCER, $href)
+                (
+                    ($href === $data && 1 === preg_match(Constants::RE_ABSOLUTE_URL_MATHCER, $href))
+                    || (null !== $mailtoTarget && $mailtoTarget === $data)
+                )
                 && $this->config->useAutomaticLinks
             ) {
                 $this->appendFormattedData('<'.$data.'>');
@@ -151,6 +157,15 @@ class DataContainer
         }
 
         if ($puredata && !$this->pre) {
+            if (!$this->config->unicodeSnob) {
+                while (
+                    str_starts_with($data, Constants::UNIFIABLE['nbsp'])
+                    && ($this->start || $this->lastWasNL)
+                ) {
+                    $data = substr($data, \strlen(Constants::UNIFIABLE['nbsp']));
+                }
+            }
+
             // This is a very dangerous call ... it could mess up
             // all handling of &nbsp; when not handled properly
             // (see entityref)

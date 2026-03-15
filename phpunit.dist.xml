@@ -15,8 +15,14 @@
     </php>
 
     <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+        <testsuite name="PHP Fixtures Suite">
+            <file>tests/Html2MarkdownTest.php</file>
+        </testsuite>
+        <testsuite name="Rust Fixtures Suite">
+            <file>tests/RustFixturesTest.php</file>
+        </testsuite>
+        <testsuite name="Utils Suite">
+            <file>tests/UtilsTest.php</file>
         </testsuite>
     </testsuites>
 

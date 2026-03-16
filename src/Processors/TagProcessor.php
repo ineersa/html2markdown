@@ -343,15 +343,15 @@ class TagProcessor
                         && (\array_key_exists('width', $attrs) || \array_key_exists('height', $attrs))
                     )
                 ) {
-                    $this->data->appendFormattedData("<img src='".$attrs['src']."' ");
+                    $this->data->appendFormattedData("<img src='".htmlspecialchars((string) $attrs['src'], \ENT_QUOTES | \ENT_HTML5, 'UTF-8')."' ");
                     if (\array_key_exists('width', $attrs) && null !== $attrs['width'] && '' !== (string) $attrs['width']) {
-                        $this->data->appendFormattedData("width='".$attrs['width']."' ");
+                        $this->data->appendFormattedData("width='".htmlspecialchars((string) $attrs['width'], \ENT_QUOTES | \ENT_HTML5, 'UTF-8')."' ");
                     }
                     if (\array_key_exists('height', $attrs) && null !== $attrs['height'] && '' !== (string) $attrs['height']) {
-                        $this->data->appendFormattedData("height='".$attrs['height']."' ");
+                        $this->data->appendFormattedData("height='".htmlspecialchars((string) $attrs['height'], \ENT_QUOTES | \ENT_HTML5, 'UTF-8')."' ");
                     }
                     if ('' !== $alt) {
-                        $this->data->appendFormattedData("alt='".$alt."' ");
+                        $this->data->appendFormattedData("alt='".htmlspecialchars((string) $alt, \ENT_QUOTES | \ENT_HTML5, 'UTF-8')."' ");
                     }
                     $this->data->appendFormattedData('/>');
 

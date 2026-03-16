@@ -14,10 +14,13 @@ class TextProcessor
     private const PLACEHOLDER_PREFIX = '__PH2T__';
     private const PLACEHOLDER_SUFFIX = '__';
 
+    private string $nbsp;
+
     public function __construct(
         private Config $config,
         private DataContainer $data,
     ) {
+        $this->nbsp = (string) html_entity_decode('&nbsp;', \ENT_QUOTES | \ENT_HTML5, 'UTF-8');
     }
 
     public function process(string $text): void
@@ -142,10 +145,9 @@ class TextProcessor
 
         $text = str_replace(["\u{200E}", "\u{200F}"], '', $text);
 
-        $nbsp = html_entity_decode('&nbsp;', \ENT_QUOTES | \ENT_HTML5, 'UTF-8');
-        if ('' !== $nbsp) {
+        if ('' !== $this->nbsp) {
             $placeholder = Constants::UNIFIABLE['nbsp'];
-            $text = str_replace($nbsp, $placeholder, $text);
+            $text = str_replace($this->nbsp, $placeholder, $text);
         }
 
         return $text;

@@ -11,8 +11,8 @@ use PHPUnit\Framework\TestCase;
 final class AnchorUtilitiesTest extends TestCase
 {
     /**
-     * @param list<int> $expectedStart
-     * @param list<int> $expectedClose
+     * @param list<int>                             $expectedStart
+     * @param list<int>                             $expectedClose
      * @param list<array{text: string, depth: int}> $expectedText
      */
     #[DataProvider('provideComputeSamples')]

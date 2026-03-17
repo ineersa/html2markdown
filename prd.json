@@ -1,0 +1,100 @@
+{
+  "name": "Third-Party Fixture Foundation + Go Golden File First Import",
+  "description": "Build the initial third-party fixture testing foundation and complete the first import from Go GoldenFiles so this PHP library can be benchmarked against mature HTML-to-Markdown implementations. This phase is strictly Go-first and does not import or scaffold active non-Go fixture suites yet.",
+  "branchName": "feature/third-party-fixture-foundation-go-golden-file-first-import",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Create Go-first third-party fixture foundation layout",
+      "description": "As a maintainer, I want a predictable third-party fixture directory and metadata layout so imports are reproducible and auditable.",
+      "acceptanceCriteria": [
+        "Add Go root directory under `tests/files/thirdPartyFixtures/go/`.",
+        "Add `tests/files/thirdPartyFixtures/THIRD_PARTY_FIXTURES.md` with attribution fields: upstream repo URL, resolved commit SHA, source paths, license, import date, transformations.",
+        "Add metadata support file for divergence bucketing (JSON map keyed by fixture id/path).",
+        "Document that non-Go library directories (`dotnet`, `js`, `ruby`, `java`) are intentionally deferred to phase 2."
+      ],
+      "priority": 1,
+      "passes": true,
+      "labels": [],
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-002",
+      "title": "Initialize Go fixture suite scaffolding",
+      "description": "As a maintainer, I want Go-focused third-party fixture suite scaffolding so failures are isolated and actionable in this phase.",
+      "acceptanceCriteria": [
+        "Add PHPUnit suite/test scaffolding for third-party Go fixtures.",
+        "Go suite resolves `.html` input fixtures to matching `.md` expected files.",
+        "Test naming/output makes source library and fixture id clear in failures.",
+        "Non-Go suites are not added in this phase and their absence does not break existing test suite execution."
+      ],
+      "priority": 2,
+      "passes": true,
+      "labels": [],
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-003",
+      "title": "Implement deterministic normalization + required mismatch bucketing",
+      "description": "As a maintainer, I want deterministic comparison and categorized diffs so parity work is actionable.",
+      "acceptanceCriteria": [
+        "Normalize line endings to LF before assertion.",
+        "Trim trailing whitespace before assertion.",
+        "Apply bounded repeated-blank-line normalization policy.",
+        "Support mismatch buckets: `whitespace`, `list_shape`, `emphasis_style`, `autolink_policy`, `escaping`, `table_format`, `entity_handling`, `parser_bug`, and temporary `unclassified`.",
+        "Every mismatch is assigned exactly one bucket.",
+        "Style-only mismatches can be marked in metadata without immediate converter behavior changes."
+      ],
+      "priority": 3,
+      "passes": true,
+      "labels": [],
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-004",
+      "title": "Import all Go GoldenFiles from upstream main snapshot",
+      "description": "As a maintainer, I want all selected Go GoldenFiles imported so we can benchmark against a high-value corpus immediately.",
+      "acceptanceCriteria": [
+        "Import all fixture pairs from:",
+        "Record resolved upstream commit SHA used for import in `tests/files/thirdPartyFixtures/THIRD_PARTY_FIXTURES.md`.",
+        "Use deterministic local naming for imported fixtures and keep `.html`/`.md` pair consistency.",
+        "Every imported `.html` has a matching `.md` (no orphans).",
+        "Preserve upstream fixture filename/path mapping in metadata for every imported fixture (local file -> upstream original path)."
+      ],
+      "priority": 4,
+      "passes": true,
+      "labels": [],
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-005",
+      "title": "Generate and save first Go mismatch report",
+      "description": "As a maintainer, I want an initial categorized report saved in-repo so follow-up parity work is prioritized and traceable.",
+      "acceptanceCriteria": [
+        "Execute third-party Go fixture suite after import.",
+        "Generate mismatch report grouped by defined buckets.",
+        "Report includes bucket summary counts.",
+        "Report includes per-fixture mismatch listing.",
+        "Report includes a dedicated parser-bug candidate section.",
+        "Distinguish style-only expected diffs from likely parser/conversion bugs.",
+        "Save report as markdown under `plans/` (e.g., `plans/go_fixture_import_mismatch_report.md`).",
+        "Report path is referenced in attribution or phase notes for future updates."
+      ],
+      "priority": 4,
+      "passes": true,
+      "labels": [],
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    }
+  ],
+  "metadata": {
+    "createdAt": "2026-03-17T02:57:33.438Z",
+    "version": "1.0.0",
+    "sourcePrd": "tasks/prd-third-party-fixture-foundation-go-golden-file-first-import.md",
+    "updatedAt": "2026-03-17T03:17:41.413Z"
+  }
+}

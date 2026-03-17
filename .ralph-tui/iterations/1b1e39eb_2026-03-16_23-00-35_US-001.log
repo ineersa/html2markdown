@@ -1,0 +1,52 @@
+# Iteration 1 Log
+
+## Metadata
+
+- **Task ID**: US-001
+- **Task Title**: Create Go-first third-party fixture foundation layout
+- **Description**: As a maintainer, I want a predictable third-party fixture directory and metadata layout so imports are reproducible and auditable.
+- **Status**: completed
+- **Task Completed**: Yes
+- **Promise Detected**: Yes
+- **Started At**: 2026-03-17T03:00:35.053Z
+- **Ended At**: 2026-03-17T03:02:14.557Z
+- **Duration**: 1m 39s
+- **Agent**: opencode
+- **Sandbox Mode**: auto
+- **Sandbox Network**: Enabled
+--- RAW OUTPUT ---
+[94m[read][0m
+[94m[read][0m
+[94m[glob][0m pattern: [96mtests/files/**/*third*[0m
+[94m[glob][0m pattern: [96mtests/files/**/*thirdParty*[0m
+[94m[apply_patch][0m
+[94m[apply_patch][0m
+[94m[apply_patch][0m
+[94m[apply_patch][0m
+[94m[bash][0m Runs PHP CS fixer checks $ composer run cs-fix
+[94m[bash][0m Runs full PHPUnit test suite $ composer run tests
+[94m[bash][0m Runs Rust fixtures PHPUnit suite $ vendor/bin/phpunit --testsuite "Rust Fixtures Suite"
+[94m[bash][0m Runs utils PHPUnit suite $ vendor/bin/phpunit --testsuite "Utils Suite"
+[94m[bash][0m Runs third-party fixtures PHPUnit suite $ vendor/bin/phpunit --testsuite "Third Party Fixtures Suite"
+[94m[bash][0m Runs PHP fixtures PHPUnit suite $ vendor/bin/phpunit --testsuite "PHP Fixtures Suite"
+[94m[bash][0m Shows changed files summary $ git status --short
+[94m[read][0m
+[94m[read][0m
+[94m[read][0m
+Implemented US-001 end-to-end for the Go-first third-party fixture foundation.
+
+- Added the Go fixture root directory with a git-tracked placeholder at `tests/files/thirdPartyFixtures/go/.gitkeep`.
+- Added attribution and import scaffolding at `tests/files/thirdPartyFixtures/THIRD_PARTY_FIXTURES.md` with required fields: upstream repo URL, resolved commit SHA placeholder, source paths, license, import date, and transformations.
+- Added divergence bucketing metadata support file at `tests/files/thirdPartyFixtures/divergence_buckets.json` as a JSON map container keyed by fixture id/path.
+- Documented phase scope in attribution notes, including explicit deferral of `dotnet`, `js`, `ruby`, and `java` to phase 2.
+- Appended progress and learnings to `.ralph-tui/progress.md`, and added a reusable pattern under the top `Codebase Patterns` section.
+
+Quality checks run:
+- `composer run cs-fix` ✅
+- `composer run tests` ✅
+- `vendor/bin/phpunit --testsuite "Rust Fixtures Suite"` ✅
+- `vendor/bin/phpunit --testsuite "PHP Fixtures Suite"` ✅
+- `vendor/bin/phpunit --testsuite "Utils Suite"` ✅
+- `vendor/bin/phpunit --testsuite "Third Party Fixtures Suite"` ✅ (suite currently reports “No tests executed!”, which is expected at this story stage)
+
+<promise>COMPLETE</promise>

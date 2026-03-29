@@ -5,8 +5,12 @@ declare(strict_types=1);
 
 require __DIR__.'/../../vendor/autoload.php';
 
-$arguments = $argv;
-array_shift($arguments);
+if (!isset($_SERVER['argv']) || !is_array($_SERVER['argv'])) {
+    fwrite(\STDERR, "This script must be run from the CLI.\n");
+    exit(1);
+}
+
+$arguments = array_slice($_SERVER['argv'], 1);
 
 $source = $arguments[0];
 if (!is_file($source)) {

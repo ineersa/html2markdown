@@ -1,0 +1,58 @@
+{
+  "johanneskaufmann-html-to-markdown/commonmark/blockquote": {
+    "bucket": "unclassified",
+    "style_only": true
+  },
+  "johanneskaufmann-html-to-markdown/commonmark/bold": {
+    "bucket": "unclassified",
+    "style_only": true
+  },
+  "johanneskaufmann-html-to-markdown/commonmark/code": {
+    "bucket": "unclassified",
+    "style_only": true
+  },
+  "johanneskaufmann-html-to-markdown/commonmark/heading": {
+    "bucket": "unclassified",
+    "style_only": true
+  },
+  "johanneskaufmann-html-to-markdown/commonmark/image": {
+    "bucket": "unclassified",
+    "style_only": true
+  },
+  "johanneskaufmann-html-to-markdown/commonmark/link": {
+    "bucket": "unclassified",
+    "style_only": true
+  },
+  "johanneskaufmann-html-to-markdown/commonmark/list": {
+    "bucket": "unclassified",
+    "style_only": true
+  },
+  "johanneskaufmann-html-to-markdown/commonmark/metadata": {
+    "bucket": "unclassified",
+    "style_only": true
+  },
+  "johanneskaufmann-html-to-markdown/strikethrough/strikethrough": {
+    "bucket": "unclassified",
+    "style_only": true
+  },
+  "johanneskaufmann-html-to-markdown/table/basics": {
+    "bucket": "unclassified",
+    "style_only": true
+  },
+  "johanneskaufmann-html-to-markdown/table/col_row_span": {
+    "bucket": "unclassified",
+    "style_only": true
+  },
+  "johanneskaufmann-html-to-markdown/table/contents": {
+    "bucket": "unclassified",
+    "style_only": true
+  },
+  "johanneskaufmann-html-to-markdown/table/email": {
+    "bucket": "unclassified",
+    "style_only": true
+  },
+  "johanneskaufmann-html-to-markdown/table/parents": {
+    "bucket": "unclassified",
+    "style_only": true
+  }
+}

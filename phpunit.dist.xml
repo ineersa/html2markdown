@@ -24,6 +24,9 @@
         <testsuite name="Utils Suite">
             <file>tests/UtilsTest.php</file>
         </testsuite>
+        <testsuite name="Third Party Fixtures Suite">
+            <file>tests/ThirdPartyGoFixturesTest.php</file>
+        </testsuite>
     </testsuites>
 
     <source ignoreSuppressionOfDeprecations="true"
